@@ -1,5 +1,7 @@
 <script setup>
+import { ref } from 'vue'
 
+const value = ref('')
 </script>
 
 <template>
@@ -10,7 +12,9 @@
         <p class="py-6">
           专注本地模型的 RAG 搜索
         </p>
-        <button class="btn btn-primary">Search</button>
+        <!-- <button class="btn btn-primary">Search</button> -->
+        <vs-input v-model="value" placeholder="Name" />
+        <vs-button> Default </vs-button>
       </div>
     </div>
   </div>
