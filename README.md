@@ -1,1 +1,3 @@
-# dox-ai-vue
+# Dox AI Vue
+
+Web for DoxAI
