@@ -1,11 +1,16 @@
 <script setup>
 import { RouterView } from 'vue-router'
+import { DoxHeader } from '@/components'
 </script>
 
 <template>
-  <div class="bg-slate-600 h-screen flex">
+  <div class="min-h-screen relative bg-slate-50">
+    <!-- Header -->
+    <div class="fixed top-0 left-0 right-0 h-10 backdrop-blur-md bg-slate-200/60 z-10">
+      <DoxHeader/>
+    </div>
     <!-- Main -->
-    <div class="grow flex-col bg-slate-50 grid justify-items-center overflow-auto">
+    <div class="grid justify-items-center overflow-auto pt-10 z-0">
       <RouterView />
     </div>
   </div>

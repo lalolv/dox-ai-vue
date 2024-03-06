@@ -1,23 +1,22 @@
 <script setup>
 import { ref } from 'vue'
+import { DoxSend, DoxSearch } from '@/components'
 
 const value = ref('')
+const active = ref(false)
 </script>
 
 <template>
-  <div class="hero min-h-screen bg-base-200">
-    <div class="hero-content text-center">
-      <div class="max-w-md">
-        <h1 class="text-5xl font-bold">Hello</h1>
-        <p class="py-6">
-          专注本地模型的 RAG 搜索
-        </p>
-        <!-- <button class="btn btn-primary">Search</button> -->
-        <vs-input v-model="value" placeholder="Name" />
-        <vs-button> Default </vs-button>
-      </div>
+  <div class="w-full pb-28">
+    <div class="flex justify-center">
+      <dox-search></dox-search>
+    </div>
+    <!-- Send -->
+    <div class="fixed bottom-0 left-0 right-0 h-28 z-10 flex justify-center">
+      <dox-send></dox-send>
     </div>
   </div>
+  
 </template>
 
 <style></style>
