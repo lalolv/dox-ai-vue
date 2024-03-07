@@ -2,8 +2,6 @@
 import { ref } from 'vue'
 import { DoxSend, DoxSearch } from '@/components'
 
-const value = ref('')
-const active = ref(false)
 </script>
 
 <template>

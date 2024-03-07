@@ -17,9 +17,9 @@ const active = ref(false);
     />
     <div class="flex justify-between items-center">
       <div class="flex items-center gap-2">
-        <GlobeAltIcon class="w-6 h-6" />
+        <GlobeAltIcon class="w-8 h-8" />
         <div class="center con-switch w-0">
-          <vs-switch v-model="active" />
+          <vs-switch v-model="active" color="success" />
         </div>
       </div>
       <vs-button shape="circle" icon>
