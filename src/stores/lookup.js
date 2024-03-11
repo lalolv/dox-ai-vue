@@ -6,8 +6,10 @@ export const useLookupStore = defineStore("lookup", () => {
   const prompt = ref("");
   // 响应
   const response = ref("");
-  // 是否活跃
+  // 是否连接成功
   const active = ref(false);
+  // 是否需要等待响应
+  const waiting = ref(false);
 
   // 持续流式输出
   function streamOut(output) {
@@ -19,5 +21,5 @@ export const useLookupStore = defineStore("lookup", () => {
     response.value = "";
   }
 
-  return { prompt, response, active, streamOut, clean };
+  return { prompt, response, active, waiting, streamOut, clean };
 });

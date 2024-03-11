@@ -1,8 +1,7 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { PaperAirplaneIcon, GlobeAltIcon } from "@heroicons/vue/24/solid";
 import { useLookupStore } from '@/stores/lookup'
-import axios from 'axios'
 
 // Store
 const store = useLookupStore()
@@ -13,18 +12,17 @@ const prompt = ref('');
 
 // socket
 const socket = ref(null)
-const wssURL = ref(import.meta.env.VITE_WS_API + '/lookup/completion')
+const wssURL = ref(import.meta.env.VITE_WS_API + '/lookup/stream')
 
-// 发送消息
-function send() {
-  // 发送提示词
-  if (prompt.value !== '') {
-    // 设置活跃状态
-    store.active = true
+onMounted(async () => {
     // 创建 socket 连接
     socket.value = new WebSocket(wssURL.value)
     // 连接成功
-    socket.value.onopen = onOpen
+    socket.value.onopen = (evt) => {
+      console.log('WebSocket connection opened:', evt)
+      // 设置活跃状态
+      store.active = true
+    }
     // 连接失败
     socket.value.onerror = (evt) => {
       console.log('WebSocket connection error:', evt)
@@ -37,16 +35,15 @@ function send() {
     }
     // 监听消息
     socket.value.onmessage = onMessage
-  }
-}
+})
 
-// 打开 WS 连接
-function onOpen(evt) {
-  console.log('WebSocket connection opened:', evt)
-  // console.log('Message:', message)
-  if (prompt.value !== '') {
+// 发送消息
+function send() {
+  // 发送提示词
+  if (prompt.value !== '' && store.active) {
     store.clean()
     store.prompt = prompt.value
+    store.waiting = true
     socket.value.send(prompt.value)
     prompt.value = ''
   }
@@ -55,6 +52,10 @@ function onOpen(evt) {
 // 监听消息
 // data: {result, error, stout}
 function onMessage(evt) {
+    if (evt.data == '[end]') {
+      store.waiting = false
+      return
+    }
     // 更新中间的加载状态信息
     store.streamOut(evt.data)
 }
@@ -69,7 +70,6 @@ function onMessage(evt) {
       v-model="prompt"
       placeholder="输入您的问题？"
       style="width: 600px"
-      :loading="store.active"
     />
     <div class="flex justify-between items-center">
       <div class="flex items-center gap-2">
@@ -78,7 +78,7 @@ function onMessage(evt) {
           <vs-switch v-model="online" color="success" />
         </div>
       </div>
-      <vs-button shape="circle" icon :loading="store.active">
+      <vs-button shape="circle" icon :loading="store.waiting">
         <PaperAirplaneIcon class="w-4 h-4" @click="send" />
       </vs-button>
     </div>
