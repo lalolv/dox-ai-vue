@@ -18,6 +18,10 @@ const store = useLookupStore();
       <article class="prose max-w-none">
         <md-preview :modelValue="store.response" />
       </article>
+      <!-- waiting gif -->
+      <div class="flex justify-center">
+        <img class="object-cover" :class="{ hidden: !store.waiting }" width="120" src="/robot-joypixels.gif">
+      </div>
     </vs-alert>
   </div>
 </template>
